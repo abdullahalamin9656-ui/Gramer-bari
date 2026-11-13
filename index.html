@@ -425,7 +425,142 @@ footer button.fct{margin-left:0}footer button.fct span{overflow-wrap:anywhere;mi
 }
 
   
+/* ===== GRAMER BARI LUXURY HEADER BUTTONS ===== */
 
+.hd .ubtn,
+.hd .cbtn[data-cart] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 48px;
+  padding: 9px 15px;
+  margin-left: 7px;
+  border-radius: 17px;
+  border: 1px solid #d7e9d5;
+  background: linear-gradient(145deg,#ffffff,#eff8ed);
+  color: #075b2e;
+  box-shadow:
+    0 4px 0 #d4e5d1,
+    0 8px 18px rgba(0,65,30,.10);
+  transition: all .3s cubic-bezier(.2,.8,.2,1);
+  cursor: pointer;
+  overflow: visible;
+}
+
+.hd .ubtn svg,
+.hd .cbtn[data-cart] svg {
+  width: 27px;
+  height: 27px;
+  stroke: #08763a;
+  stroke-width: 2;
+  transition: all .3s ease;
+}
+
+.hd .ubtn em,
+.hd .cbtn[data-cart] em {
+  font-size: 14px;
+  font-weight: 800;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.hd .ubtn em {
+  max-width: 95px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hd .cbtn[data-cart] {
+  background: linear-gradient(145deg,#087b3b,#005526);
+  border: 1px solid #15934d;
+  color: #fff;
+  box-shadow:
+    0 4px 0 #06451f,
+    0 9px 20px rgba(0,75,35,.22);
+}
+
+.hd .cbtn[data-cart] svg {
+  stroke: #fff;
+}
+
+.hd .cbtn[data-cart] .cnt {
+  position: absolute;
+  top: -9px;
+  right: -7px;
+  min-width: 23px;
+  height: 23px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  background: linear-gradient(135deg,#ffe36a,#ffbd00);
+  color: #4b3600;
+  font-size: 11px;
+  font-weight: 900;
+  box-shadow: 0 3px 8px #9a740055;
+}
+
+@media(hover:hover) {
+  .hd .ubtn:hover,
+  .hd .cbtn[data-cart]:hover {
+    transform: translateY(-5px);
+    border-color: #e4bd42;
+    box-shadow:
+      0 7px 0 #d1b45d,
+      0 15px 25px rgba(0,70,30,.19);
+  }
+
+  .hd .ubtn:hover svg,
+  .hd .cbtn[data-cart]:hover svg {
+    transform: scale(1.13);
+  }
+
+  .hd .cbtn[data-cart]:hover {
+    background: linear-gradient(145deg,#11934d,#005526);
+  }
+}
+
+.hd .ubtn:active,
+.hd .cbtn[data-cart]:active {
+  transform: scale(.94);
+  box-shadow: 0 2px 0 #b8cdb5;
+}
+
+/* Mobile Responsive */
+@media(max-width:600px) {
+  .hd .ubtn,
+  .hd .cbtn[data-cart] {
+    min-height: 43px;
+    padding: 7px 9px;
+    gap: 5px;
+    border-radius: 13px;
+    margin-left: 3px;
+  }
+
+  .hd .ubtn svg,
+  .hd .cbtn[data-cart] svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .hd .ubtn em,
+  .hd .cbtn[data-cart] em {
+    font-size: 12px;
+  }
+}
+
+@media(max-width:400px) {
+  .hd .ubtn em {
+    display: none;
+  }
+}
+
+
+
+  
 </style></head><body>
 <div class="ann"><div class="wrap" id="annt"></div></div>
 <header><div class="wrap hd"><a class="logo" href="#"><i class="lg"><img src="logo-icon.png" alt="" width="46" height="46" onerror="this.parentNode.style.cssText='background:linear-gradient(135deg,#157a2c,#2faa4a);box-shadow:0 5px 0 #0c4a1b';this.replaceWith('🌿')"></i><span><b>গ্রামের বাড়ি</b><small>প্রকৃতির ছোঁয়া, আপনার ঘরে</small></span></a><div class="srch"><input id="q" type="search" placeholder="পণ্য খুঁজুন…" aria-label="পণ্য খুঁজুন" autocomplete="off"><button data-qgo aria-label="খুঁজুন"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></div><button class="cbtn ubtn" data-acct aria-label="অ্যাকাউন্ট ও লগইন"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><em id="ulb">লগইন</em></button><button class="cbtn" data-cart aria-label="কার্ট"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.7 12.4a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L20 7H6"/></svg><span class="cnt" data-n>0</span><em>কার্ট</em></button></div><nav class="gnav"><div class="wrap"><a class="on" href="#">হোম</a><div class="dd"><a href="#products">আমাদের পণ্য ▾</a><div class="ddm" id="ddm"></div></div><a href="#story">আমাদের সম্পর্কে</a><a href="#videos" id="nv" hidden>ভিডিও</a><a href="#contact">যোগাযোগ</a><span class="slg">প্রকৃতি ও ঐতিহ্যের সাথে…</span></div></nav></header>
