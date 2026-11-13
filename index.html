@@ -381,128 +381,356 @@ const XB='<button class="x" data-close aria-label="বন্ধ করুন">�
 function drawAcctBtn(){const e=$('#ulb');if(e)e.textContent=cu?String(cu.displayName||cu.email||cu.phoneNumber||'আমি').trim().split(/[\s@]/)[0].slice(0,10):'লগইন'}
 function aerr(x){const c=(x&&x.code)||'';if(c==='auth/popup-closed-by-user'||c==='auth/cancelled-popup-request')return'';
  const M={'auth/invalid-credential':'ইমেইল বা পাসওয়ার্ড ভুল','auth/wrong-password':'ইমেইল বা পাসওয়ার্ড ভুল','auth/user-not-found':'ইমেইল বা পাসওয়ার্ড ভুল','auth/email-already-in-use':'এই ইমেইলে আগেই অ্যাকাউন্ট আছে — লগইন করুন','auth/weak-password':'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের দিন','auth/invalid-email':'সঠিক ইমেইল দিন','auth/account-exists-with-different-credential':'এই ইমেইলে অন্য পদ্ধতিতে (Google/ইমেইল) অ্যাকাউন্ট আছে, সেটি দিয়ে লগইন করুন','auth/operation-not-allowed':'এই লগইন পদ্ধতি এখনো চালু করা হয়নি','auth/unauthorized-domain':'এই সাইটের ডোমেইন Firebase-এ অনুমোদিত নয়','auth/invalid-phone-number':'সঠিক মোবাইল নম্বর দিন (যেমন 017XXXXXXXX)','auth/invalid-verification-code':'কোড ভুল হয়েছে','auth/code-expired':'কোডের মেয়াদ শেষ, আবার পাঠান','auth/quota-exceeded':'আজকের SMS সীমা শেষ, পরে চেষ্টা করুন','auth/captcha-check-failed':'যাচাই ব্যর্থ, আবার চেষ্টা করুন','auth/too-many-requests':'অনেকবার চেষ্টা হয়েছে, একটু পরে আবার চেষ্টা করুন','auth/network-request-failed':'ইন্টারনেট সংযোগ দেখুন'};
- return M[c]||'লগইন হয়নি, আবার চেষ্টা করুন'}
-function loginUI(m){
- const S=m==='signup';
+ return M[c]||'লগইন হয়নি, আবার চেষ্টা করুন'} 
+
+ 
+
+function loginUI(m) {
+ const S = m === 'signup';
 
  open(`
- <div class="gb-auth">
+ <style>
+ .gb-premium-login {
+   position:relative;
+   display:grid;
+   grid-template-columns: 44% 56%;
+   width:min(1050px,94vw);
+   max-height:90vh;
+   overflow:auto;
+   margin:auto;
+   background:#fff;
+   border-radius:25px;
+   box-shadow:0 25px 80px #16002d66;
+   font-family:inherit;
+   color:#171126;
+ }
+ .gb-premium-login * {box-sizing:border-box}
+ .gb-premium-login .gb-left {
+   position:relative;
+   overflow:hidden;
+   padding:38px 28px;
+   background:
+   radial-gradient(circle at 20% 20%,#6513a8,transparent 45%),
+   linear-gradient(145deg,#100022,#240044 65%,#090019);
+   color:white;
+   display:flex;
+   flex-direction:column;
+   justify-content:center;
+   min-height:610px;
+   border-right:8px solid #f5c400;
+ }
+ .gb-premium-login .gb-brand {
+   text-align:center;
+   font-size:clamp(28px,4vw,43px);
+   font-weight:900;
+   color:#ffd52b;
+   text-shadow:0 3px 15px #000;
+   line-height:1.4;
+ }
+ .gb-premium-login .gb-logo-icon {
+   font-size:65px;
+   display:block;
+   color:#fff;
+ }
+ .gb-premium-login .gb-tag {
+   text-align:center;
+   color:#fff;
+   font-size:15px;
+   margin:8px 0 35px;
+ }
+ .gb-premium-login .gb-left h2 {
+   font-size:30px;
+   text-align:center;
+   color:#fff;
+   line-height:1.5;
+ }
+ .gb-premium-login .gb-highlight {
+   background:#ffcf00;
+   color:#18002b;
+   padding:5px 13px;
+   border-radius:8px;
+   display:inline-block;
+ }
+ .gb-premium-login .gb-products {
+   text-align:center;
+   font-size:75px;
+   margin:30px 0 15px;
+   filter:drop-shadow(0 8px 10px #0008);
+ }
+ .gb-premium-login .gb-left ul {
+   list-style:none;
+   padding:0;
+   margin:10px auto;
+   font-size:19px;
+   font-weight:700;
+   line-height:2;
+ }
+ .gb-premium-login .gb-left li:before {
+   content:"✓";
+   color:#ffcf00;
+   margin-right:12px;
+ }
+ .gb-premium-login .gb-right {
+   position:relative;
+   padding:48px 38px 35px;
+   background:linear-gradient(145deg,#fff,#f7f3ff);
+ }
+ .gb-premium-login .gb-close {
+   position:absolute;
+   right:17px;top:12px;
+   border:0;background:transparent;
+   font-size:32px;color:#222;
+   cursor:pointer;
+ }
+ .gb-premium-login .gb-tabs {
+   display:flex;
+   justify-content:center;
+   gap:7px;
+   flex-wrap:wrap;
+   background:#f5f1fb;
+   border-radius:40px;
+   padding:7px;
+   margin:0 0 38px;
+ }
+ .gb-premium-login .gb-tabs button {
+   border:0;background:transparent;
+   padding:12px 15px;
+   border-radius:30px;
+   font-weight:700;
+   cursor:pointer;
+   color:#21152d;
+ }
+ .gb-premium-login .gb-tabs button.active {
+   background:linear-gradient(100deg,#4c00a6,#9900ff);
+   color:#fff;
+   box-shadow:0 5px 15px #7000aa55;
+ }
+ .gb-premium-login .gb-title {
+   text-align:center;
+   font-size:clamp(25px,3vw,38px);
+   font-weight:900;
+   margin:0;
+   color:#180b2d;
+ }
+ .gb-premium-login .gb-title span {color:#8000e8}
+ .gb-premium-login .gb-subtitle {
+   text-align:center;
+   font-size:15px;
+   color:#5b5365;
+   margin:10px 0 28px;
+ }
+ .gb-premium-login .gb-line {
+   height:5px;width:110px;
+   background:#8900e9;
+   border-radius:10px;
+   margin:-15px auto 30px;
+ }
+ .gb-premium-login .gb-input {
+   display:flex;
+   align-items:center;
+   gap:13px;
+   height:62px;
+   padding:0 17px;
+   margin:18px 0;
+   border:1.5px solid #ded6ed;
+   background:#f8f6fc;
+   border-radius:40px;
+   box-shadow:inset 0 2px 5px #00000008;
+ }
+ .gb-premium-login .gb-input:focus-within {
+   border-color:#8700e9;
+   box-shadow:0 0 0 3px #8700e91c;
+ }
+ .gb-premium-login .gb-input .gb-ico {
+   font-size:23px;color:#340064;
+   flex-shrink:0;
+ }
+ .gb-premium-login .gb-input input {
+   width:100%;min-width:0;
+   border:0!important;outline:0!important;
+   background:transparent!important;
+   font-size:16px!important;
+   color:#20152d!important;
+   box-shadow:none!important;
+ }
+ .gb-premium-login .gb-eye {
+   border:0;background:none;
+   font-size:21px;cursor:pointer;
+ }
+ .gb-premium-login .gb-meta {
+   display:flex;
+   justify-content:space-between;
+   align-items:center;
+   gap:8px;
+   margin:15px 0 22px;
+   font-size:14px;
+ }
+ .gb-premium-login .gb-meta button,
+ .gb-premium-login .gb-bottom button {
+   color:#7600c9;
+   background:none;border:0;
+   font-weight:800;cursor:pointer;
+ }
+ .gb-premium-login .gb-submit {
+   width:100%;height:65px;
+   border:0;border-radius:40px;
+   background:linear-gradient(100deg,#390080,#a000ff);
+   color:#fff;font-size:22px;
+   font-weight:900;cursor:pointer;
+   box-shadow:0 9px 20px #7100b955;
+ }
+ .gb-premium-login .gb-submit:active {
+   transform:scale(.98);
+ }
+ .gb-premium-login .gb-or {
+   display:flex;align-items:center;
+   gap:12px;margin:22px 0;
+   color:#777;justify-content:center;
+ }
+ .gb-premium-login .gb-or:before,
+ .gb-premium-login .gb-or:after {
+   content:"";height:1px;
+   background:#ddd;flex:1;
+ }
+ .gb-premium-login .gb-social {
+   display:flex;gap:10px;
+ }
+ .gb-premium-login .gb-social button {
+   flex:1;min-width:0;
+   padding:13px 5px;
+   border:1px solid #e6e0ed;
+   background:#fff;border-radius:30px;
+   font-size:14px;font-weight:700;
+   cursor:pointer;
+ }
+ .gb-premium-login .gb-bottom {
+   text-align:center;
+   margin-top:30px;font-size:14px;
+ }
+ .gb-premium-login .lerr {
+   color:#d00030;font-size:13px;
+ }
+ @media(max-width:650px) {
+   .gb-premium-login {
+     display:block;
+     width:94vw;
+     max-height:88vh;
+     overflow-y:auto;
+     border-radius:18px;
+   }
+   .gb-premium-login .gb-left {
+     min-height:0;
+     padding:18px 12px;
+     border-right:0;
+     border-bottom:5px solid #f5c400;
+   }
+   .gb-premium-login .gb-logo-icon {font-size:38px}
+   .gb-premium-login .gb-brand {font-size:27px}
+   .gb-premium-login .gb-tag {margin:3px 0 8px;font-size:12px}
+   .gb-premium-login .gb-left h2 {font-size:19px;margin:5px}
+   .gb-premium-login .gb-products {font-size:37px;margin:5px}
+   .gb-premium-login .gb-left ul {
+     display:flex;justify-content:center;
+     flex-wrap:wrap;gap:3px 12px;
+     font-size:12px;line-height:1.5;
+     margin:5px;
+   }
+   .gb-premium-login .gb-left li:before {margin-right:4px}
+   .gb-premium-login .gb-right {padding:22px 17px}
+   .gb-premium-login .gb-tabs {margin-bottom:23px}
+   .gb-premium-login .gb-tabs button {padding:9px 10px;font-size:12px}
+   .gb-premium-login .gb-title {font-size:27px}
+   .gb-premium-login .gb-subtitle {font-size:12px;margin-bottom:23px}
+   .gb-premium-login .gb-input {height:51px;margin:12px 0}
+   .gb-premium-login .gb-submit {height:54px;font-size:19px}
+   .gb-premium-login .gb-bottom {margin-top:20px}
+ }
+ </style>
 
-   <div class="auth-art" role="img"
-   aria-label="গ্রামের বাড়ি প্রাকৃতিক পণ্য"></div>
+ <div class="gb-premium-login">
+   <div class="gb-left">
+     <div class="gb-brand">
+       <span class="gb-logo-icon">⌂ 🌿</span>
+       গ্রামের বাড়ি
+     </div>
+     <div class="gb-tag">প্রকৃতির উপহার, আপনার জন্য</div>
+     <h2>খাঁটি ও প্রাকৃতিক<br>
+       <span class="gb-highlight">ন্যাচারাল ফুড</span>
+     </h2>
+     <div class="gb-products">🍯 🧈 🌻</div>
+     <ul>
+       <li>খাঁটি মধু</li>
+       <li>গাওয়া ঘি</li>
+       <li>সরিষার তেল</li>
+       <li>আরও অনেক কিছু</li>
+     </ul>
+   </div>
 
-   <section class="auth-form">
+   <div class="gb-right">
+     <button class="gb-close" data-close>×</button>
 
-     <button class="auth-close" data-close>×</button>
-
-     <div class="auth-tabs">
+     <div class="gb-tabs">
        <button class="${S?'':'active'}" data-lmode="login">♙ Login</button>
        <button class="${S?'active':''}" data-lmode="signup">♧ Register</button>
        <button data-forgot>🔒 Forgot Password</button>
      </div>
 
-     <div class="auth-heading">
-       <h2>${S?'Create ':'Welcome '}<span>${S?'Account':'Back!'}</span></h2>
-       <p>${S?'গ্রামের বাড়িতে নতুন অ্যাকাউন্ট খুলুন':'Login to your account and continue shopping'}</p>
-       <div class="auth-underline"></div>
-     </div>
+     <h2 class="gb-title">${S?'Create ':'Welcome '}<span>${S?'Account':'Back!'}</span></h2>
+     <p class="gb-subtitle">Login to your account and continue shopping</p>
+     <div class="gb-line"></div>
 
-     <form id="lf" novalidate
-       onsubmit="event.preventDefault();document.querySelector('[data-lsub]').click();return false">
-
+     <form id="lf" onsubmit="event.preventDefault();document.querySelector('[data-lsub]').click();return false">
        ${S?`
-       <label>
-         <div class="auth-input">
-           <span>👤</span>
-           <input id="lnm" autocomplete="name"
-           placeholder="আপনার পূর্ণ নাম" required>
-         </div>
-       </label>`:''}
+       <div class="gb-input">
+         <span class="gb-ico">♙</span>
+         <input id="lnm" placeholder="Full Name" required>
+       </div>`:''}
 
-       <label>
-         <div class="auth-input">
-           <svg viewBox="0 0 24 24">
-             <rect x="3" y="5" width="18" height="14" rx="2"/>
-             <path d="m4 7 8 6 8-6"/>
-           </svg>
-           <input id="lem" type="email"
-           autocomplete="email"
-           placeholder="Email Address" required>
-         </div>
-       </label>
+       <div class="gb-input">
+         <span class="gb-ico">✉</span>
+         <input id="lem" type="email" placeholder="Email Address" required>
+       </div>
 
-       <label>
-         <div class="auth-input">
-           <svg viewBox="0 0 24 24">
-             <rect x="4" y="10" width="16" height="11" rx="2"/>
-             <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
-           </svg>
-
-           <input id="lpw" type="password"
-           autocomplete="${S?'new-password':'current-password'}"
-           placeholder="Password" required>
-
-           <button type="button" class="auth-eye"
-           data-eye>◎</button>
-         </div>
-       </label>
+       <div class="gb-input">
+         <span class="gb-ico">🔒</span>
+         <input id="lpw" type="password" placeholder="Password" required>
+         <button type="button" class="gb-eye" data-eye>◉</button>
+       </div>
      </form>
 
-     <div class="auth-meta">
-       <label class="auth-remember">
-         <input type="checkbox" checked>
-         Remember Me
-       </label>
-       <button class="auth-link" data-forgot>
-         Forgot Password?
-       </button>
+     <div class="gb-meta">
+       <label><input type="checkbox" checked> Remember Me</label>
+       <button data-forgot>Forgot Password?</button>
      </div>
 
-     <p class="lerr" id="lerr" role="alert"></p>
+     <p class="lerr" id="lerr"></p>
 
-     <button class="auth-submit" data-lsub="${m}">
-       ↪ Login Now
-     </button>
+     <button class="gb-submit" data-lsub="${m}">➜ Login Now</button>
 
-     <div class="auth-or">OR</div>
+     <div class="gb-or">OR</div>
 
-     <div class="auth-social">
-
-       <button class="sbtn" data-prov="google">
-         <svg viewBox="0 0 48 48">
-           <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/>
-           <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/>
-           <path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/>
-           <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/>
-         </svg>
-         Google
-       </button>
-
-       <button data-phone>📱 Mobile OTP</button>
-
+     <div class="gb-social">
+       <button data-prov="google">🌐 Google</button>
+       <button data-phone>📱 Phone OTP</button>
      </div>
 
-     <p class="auth-bottom">
-       ${S?'Already have an account?':'Don’t have an account?'}
+     <div class="gb-bottom">
+       ${S?'Already have an account?':"Don't have an account?"}
        <button data-lmode="${S?'login':'signup'}">
          ${S?'Login':'Register Now →'}
        </button>
-     </p>
-
-   </section>
+     </div>
+   </div>
  </div>
  `);
 
- const eye=$('[data-eye]');
-
- if(eye){
-   eye.addEventListener('click',()=>{
-     const p=$('#lpw');
-     p.type=p.type==='password'?'text':'password';
-     eye.textContent=p.type==='password'?'◎':'◉';
-   });
- }
+ const eye = $('[data-eye]');
+ if(eye) eye.addEventListener('click',()=>{
+   const p=$('#lpw');
+   p.type=p.type==='password'?'text':'password';
+ });
 }
+
  async function emailAuth(m){const e=$('#lem').value.trim(),p=$('#lpw').value,er=$('#lerr'),b=$('[data-lsub]');er.textContent='';
  if(!/^\S+@\S+\.\S+$/.test(e)){er.textContent='সঠিক ইমেইল দিন';return}
  if(p.length<6){er.textContent='পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের দিন';return}
