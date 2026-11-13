@@ -272,6 +272,58 @@ footer button.fct{margin-left:0}footer button.fct span{overflow-wrap:anywhere;mi
   }
 }
 
+/* PREMIUM PRODUCT CARD HOVER */
+#pg .card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e0eadc;
+  border-radius: 18px;
+  background: linear-gradient(145deg,#ffffff,#f5fff2);
+  box-shadow: 0 5px 15px rgba(0,70,35,.09);
+  transition: transform .35s ease,
+              box-shadow .35s ease,
+              border-color .35s ease;
+  transform: translateY(0);
+}
+
+#pg .card .im {
+  overflow: hidden;
+  border-radius: 13px;
+}
+
+#pg .card .im img {
+  transition: transform .5s ease;
+}
+
+@media (hover:hover) {
+  #pg .card:hover {
+    transform: translateY(-9px);
+    border-color: #d5b33e;
+    box-shadow:
+      0 15px 30px rgba(0,75,35,.16),
+      0 0 0 2px rgba(218,184,65,.15);
+  }
+
+  #pg .card:hover .im img {
+    transform: scale(1.07);
+  }
+}
+
+#pg .card:active {
+  transform: scale(.97);
+}
+
+#pg .card button {
+  transition: all .25s ease;
+}
+
+#pg .card button:active {
+  transform: scale(.94);
+}
+
+
+
+  
 
 </style></head><body>
 <div class="ann"><div class="wrap" id="annt"></div></div>
