@@ -271,57 +271,158 @@ footer button.fct{margin-left:0}footer button.fct span{overflow-wrap:anywhere;mi
     font-size: 11px;
   }
 }
+   }
 
-/* PREMIUM PRODUCT CARD HOVER */
+
+/* ===== GRAMER BARI PREMIUM PRODUCT UI ===== */
+
 #pg .card {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid #e0eadc;
-  border-radius: 18px;
-  background: linear-gradient(145deg,#ffffff,#f5fff2);
-  box-shadow: 0 5px 15px rgba(0,70,35,.09);
-  transition: transform .35s ease,
-              box-shadow .35s ease,
-              border-color .35s ease;
-  transform: translateY(0);
+  position:relative;
+  overflow:hidden;
+  border:1px solid #e2eadc;
+  border-radius:20px;
+  background:linear-gradient(145deg,#fff,#f3faef);
+  box-shadow:0 5px 18px rgba(0,65,30,.09);
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
 }
 
-#pg .card .im {
-  overflow: hidden;
-  border-radius: 13px;
+#pg .card::after {
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:70%;
+  height:100%;
+  background:linear-gradient(110deg,transparent,
+    rgba(255,255,255,.45),transparent);
+  transform:skewX(-20deg);
+  pointer-events:none;
+  transition:left .65s ease;
 }
 
-#pg .card .im img {
-  transition: transform .5s ease;
-}
-
-@media (hover:hover) {
+@media(hover:hover) {
   #pg .card:hover {
-    transform: translateY(-9px);
-    border-color: #d5b33e;
-    box-shadow:
-      0 15px 30px rgba(0,75,35,.16),
-      0 0 0 2px rgba(218,184,65,.15);
+    transform:translateY(-8px);
+    border-color:#d5b43e;
+    box-shadow:0 16px 32px rgba(0,75,35,.16);
+  }
+
+  #pg .card:hover::after {
+    left:150%;
   }
 
   #pg .card:hover .im img {
-    transform: scale(1.07);
+    transform:scale(1.08);
   }
 }
 
-#pg .card:active {
-  transform: scale(.97);
+#pg .card .im {
+  overflow:hidden;
+  border-radius:14px;
 }
 
-#pg .card button {
-  transition: all .25s ease;
+#pg .card .im img {
+  transition:transform .5s ease;
 }
 
-#pg .card button:active {
-  transform: scale(.94);
+/* Professional icon buttons */
+#pg .card .bt {
+  display:flex;
+  gap:7px;
 }
 
+#pg .card .bt button {
+  flex:1;
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  border-radius:11px;
+  font-weight:800;
+  transition:all .25s ease;
+  box-shadow:0 3px 8px rgba(0,60,25,.10);
+}
 
+/* Cart icon */
+#pg .card .bt [data-add]::before {
+  content:"";
+  width:17px;
+  height:17px;
+  flex:none;
+  background:currentColor;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='21' r='1'/%3E%3Ccircle cx='20' cy='21' r='1'/%3E%3Cpath d='M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+/* Buy now lightning icon */
+#pg .card .bt [data-buy]::before {
+  content:"";
+  width:16px;
+  height:16px;
+  flex:none;
+  background:currentColor;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M13 2L3 14h7l-1 8 12-14h-8z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+@media(hover:hover) {
+  #pg .card .bt button:hover {
+    transform:translateY(-3px);
+    box-shadow:0 7px 15px rgba(0,70,30,.18);
+  }
+
+  #pg .card .bt [data-add]:hover {
+    background:#005b31;
+    color:white;
+  }
+
+  #pg .card .bt [data-buy]:hover {
+    filter:brightness(1.08);
+  }
+}
+
+#pg .card .bt button:active {
+  transform:scale(.95);
+}
+
+/* Stock status */
+#pg .card .st.in::before {
+  content:"";
+  display:inline-block;
+  width:7px;
+  height:7px;
+  background:#079447;
+  border-radius:50%;
+  margin-right:5px;
+  box-shadow:0 0 0 3px #07944720;
+}
+
+/* Price highlight */
+#pg .card .pr {
+  color:#08783e;
+  font-weight:900;
+}
+
+/* Mobile friendly */
+@media(max-width:600px) {
+  #pg .card {
+    border-radius:16px;
+  }
+
+  #pg .card .bt {
+    gap:5px;
+  }
+
+  #pg .card .bt button {
+    padding:9px 3px;
+    font-size:10px;
+    gap:3px;
+  }
+
+  #pg .card .bt button::before {
+    width:14px;
+    height:14px;
+  }
+}
 
   
 
