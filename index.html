@@ -770,8 +770,144 @@ async function phoneVerify(){const er=$('#lerr'),b=$('[data-pver]'),c=($('#pcd')
  catch(x){er.textContent=aerr(x);b.disabled=false}}
 function acct(){if(!cu)return loginUI('login');
  const nm=cu.displayName||'গ্রাহক';
- open(`${XB}<h2>আমার অ্যাকাউন্ট</h2><div class="row"><div style="width:46px;height:46px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;font-size:22px;font-weight:700;flex:none">${esc(nm.trim().charAt(0).toUpperCase())}</div><div><b>${esc(nm)}</b><br><small>${esc(cu.email||cu.phoneNumber||'')}</small></div></div><div class="bt" style="flex-direction:column;margin-top:14px"><button class="pri" data-myo>আমার অর্ডার</button>${user?'<button class="go" data-adm>অ্যাডমিন প্যানেল</button>':''}<button data-clogout>লগআউট</button></div>`)}
-function myOrders(){const L=[...D.mine].sort((a,b)=>(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0));
+
+
+ 
+ 
+function acct(){
+ if(!cu)return loginUI('login');
+
+ const nm=cu.displayName||'গ্রাহক';
+ const email=cu.email||cu.phoneNumber||'';
+ const orders=D.mine||[];
+ const total=orders.length;
+ const pending=orders.filter(o=>['Pending','Confirmed','Processing'].includes(o.status)).length;
+ const delivered=orders.filter(o=>o.status==='Delivered').length;
+ const initial=esc(nm.trim().charAt(0).toUpperCase());
+
+ open(`${XB}
+ <style>
+ .gbdash{color:#173d29}
+ .gbdash *{box-sizing:border-box}
+ .gbdash .hero{
+ background:linear-gradient(130deg,#004d2b,#00843f);
+ color:white;padding:24px;border-radius:19px;
+ display:flex;align-items:center;gap:15px;
+ box-shadow:0 9px 25px #00552b30
+ }
+ .gbdash .avatar{
+ width:65px;height:65px;flex:none;
+ border:3px solid #f7d45a;border-radius:50%;
+ background:linear-gradient(135deg,#f9d65b,#fff0a0);
+ color:#07552e;display:grid;place-items:center;
+ font-size:30px;font-weight:900
+ }
+ .gbdash .hero h2{color:white;margin:0 0 5px;font-size:22px}
+ .gbdash .hero p{margin:0;font-size:12px;opacity:.85;overflow-wrap:anywhere}
+ .gbdash .gold{color:#ffd95b}
+ .gbdash .welcome{margin:22px 0 12px;font-size:18px}
+ .gbdash .stats{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:9px;margin:12px 0 22px
+ }
+ .gbdash .stat{
+ padding:15px 7px;text-align:center;
+ background:#fff;border:1px solid #e4ecdf;
+ border-radius:15px;box-shadow:0 4px 14px #174c2510
+ }
+ .gbdash .stat strong{display:block;font-size:23px;color:#08743b}
+ .gbdash .stat small{font-size:11px;color:#647569}
+ .gbdash .section{font-weight:900;margin:20px 0 12px}
+ .gbdash .menu{
+ display:grid;grid-template-columns:1fr 1fr;gap:11px
+ }
+ .gbdash .item{
+ border:1px solid #e3ebdf;background:#fff;
+ border-radius:15px;padding:16px 10px;
+ text-align:left;color:#164b2c;cursor:pointer;
+ min-height:85px;font-weight:800;
+ box-shadow:0 4px 12px #173d2910
+ }
+ .gbdash .item span{display:block;font-size:23px;margin-bottom:7px}
+ .gbdash .logout{
+ width:100%;padding:14px;border:0;border-radius:13px;
+ background:linear-gradient(100deg,#a90027,#e52d4d);
+ color:white;font-size:16px;font-weight:900;
+ margin-top:20px;cursor:pointer
+ }
+ .gbdash .admin{
+ width:100%;padding:13px;border-radius:13px;
+ background:#fff4d1;color:#765000;
+ border:1px solid #edce72;font-weight:800;margin-top:12px
+ }
+ @media(max-width:380px){
+ .gbdash .stats{gap:5px}
+ .gbdash .stat{padding:12px 3px}
+ .gbdash .stat strong{font-size:19px}
+ }
+ </style>
+
+ <div class="gbdash">
+  <div class="hero">
+   <div class="avatar">${initial}</div>
+   <div style="min-width:0">
+    <div class="gold" style="font-size:12px">🌿 GRAMER BARI</div>
+    <h2>স্বাগতম, ${esc(nm)}!</h2>
+    <p>${esc(email)}</p>
+    <small>আপনার ব্যক্তিগত ড্যাশবোর্ড</small>
+   </div>
+  </div>
+
+  <h3 class="welcome">📊 আপনার অ্যাকাউন্টের সারসংক্ষেপ</h3>
+
+  <div class="stats">
+   <div class="stat">
+    <strong>${bn(total)}</strong>
+    <small>মোট অর্ডার</small>
+   </div>
+   <div class="stat">
+    <strong>${bn(pending)}</strong>
+    <small>চলমান অর্ডার</small>
+   </div>
+   <div class="stat">
+    <strong>${bn(delivered)}</strong>
+    <small>ডেলিভারি সম্পন্ন</small>
+   </div>
+  </div>
+
+  <div class="section">🛍️ আমার শপিং</div>
+  <div class="menu">
+   <button class="item" data-myo>
+    <span>📦</span>আমার অর্ডার
+   </button>
+   <button class="item" data-pop="products">
+    <span>🛒</span>কেনাকাটা করুন
+   </button>
+   <button class="item" data-pop="cart">
+    <span>🧺</span>আমার কার্ট
+   </button>
+   <button class="item" data-pop="contact">
+    <span>🎧</span>কাস্টমার সাপোর্ট
+   </button>
+  </div>
+
+  ${user?`
+   <button class="admin" data-adm>
+    ⚙️ অ্যাডমিন প্যানেল
+   </button>`:''}
+
+  <button class="logout" data-clogout>
+   ↪ লগআউট
+  </button>
+
+  <p style="text-align:center;color:#819084;font-size:11px;margin:18px 0 3px">
+   🌿 গ্রামের বাড়ি — প্রকৃতির উপহার, আপনার জন্য
+  </p>
+ </div>
+ `);
+}
+
+ function myOrders(){const L=[...D.mine].sort((a,b)=>(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0));
  open(`${XB}<h2>আমার অর্ডার</h2>${L.map(o=>`<div class="ofp"><b>#${esc(o.no)}</b> <span class="tag" style="position:static;display:inline-block">${SB[o.status]||esc(o.status)}</span><br>${(o.items||[]).map(i=>`${esc(i.name)} (${esc(i.w)}) × ${bn(i.qty)}`).join('<br>')}<br><b>${tk(o.total)}</b></div>`).join('')||'<p class="empty">লগইন অবস্থায় করা কোনো অর্ডার এখনো নেই।</p>'}<div class="act"><button data-acct>← ফিরে যান</button></div>`)}
 /* ---------- Admin ---------- */
 const ST=['Pending','Confirmed','Processing','Shipped','Delivered','Cancelled'];
