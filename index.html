@@ -223,7 +223,57 @@ footer .fli a:hover svg,footer .fli button:hover svg,footer .fli a:active svg,fo
 footer button.fct{margin-left:0}footer button.fct span{overflow-wrap:anywhere;min-width:0}
 @media(min-width:780px){nav.top{display:flex}.bn,.wa{display:none}.hero .wrap{grid-template-columns:1fr}.stage{width:min(100%,520px)}body{padding-bottom:0}.ov{align-items:center;justify-content:center}.md{width:560px;border-radius:24px}.cbtn{margin-left:0}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-.ubtn{margin-left:auto}.ubtn+.cbtn{margin-left:0}@media(max-width:400px){.ubtn em{display:none}}@media(min-width:780px){.ubtn{margin-left:0}}.sbtn{width:100%;padding:12px;display:flex;align-items:center;justify-content:center;gap:10px}.lerr{min-height:1.2em;color:#b3261e;font-size:14px;margin:8px 0}</style></head><body>
+.ubtn{margin-left:auto}.ubtn+.cbtn{margin-left:0}@media(max-width:400px){.ubtn em{display:none}}@media(min-width:780px){.ubtn{margin-left:0}}.sbtn{width:100%;padding:12px;display:flex;align-items:center;justify-content:center;gap:10px}.lerr{min-height:1.2em;color:#b3261e;font-size:14px;margin:8px 0}
+
+
+/* Mobile: 2 Products Side by Side */
+@media (max-width: 600px) {
+  #pg.grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  #pg .card {
+    padding: 8px;
+    border-radius: 15px;
+    min-width: 0;
+    gap: 6px;
+  }
+
+  #pg .im {
+    aspect-ratio: 1 / 1;
+    border-radius: 11px;
+  }
+
+  #pg .card h3 {
+    font-size: 14px;
+  }
+
+  #pg .card p {
+    font-size: 11px;
+  }
+
+  #pg .pr {
+    font-size: 16px;
+  }
+
+  #pg .bt {
+    gap: 5px;
+  }
+
+  #pg .bt button {
+    font-size: 10px;
+    padding: 9px 3px;
+  }
+
+  #pg .card select {
+    max-width: 100%;
+    font-size: 11px;
+  }
+}
+
+
+</style></head><body>
 <div class="ann"><div class="wrap" id="annt"></div></div>
 <header><div class="wrap hd"><a class="logo" href="#"><i class="lg"><img src="logo-icon.png" alt="" width="46" height="46" onerror="this.parentNode.style.cssText='background:linear-gradient(135deg,#157a2c,#2faa4a);box-shadow:0 5px 0 #0c4a1b';this.replaceWith('🌿')"></i><span><b>গ্রামের বাড়ি</b><small>প্রকৃতির ছোঁয়া, আপনার ঘরে</small></span></a><div class="srch"><input id="q" type="search" placeholder="পণ্য খুঁজুন…" aria-label="পণ্য খুঁজুন" autocomplete="off"><button data-qgo aria-label="খুঁজুন"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></div><button class="cbtn ubtn" data-acct aria-label="অ্যাকাউন্ট ও লগইন"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><em id="ulb">লগইন</em></button><button class="cbtn" data-cart aria-label="কার্ট"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.7 12.4a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L20 7H6"/></svg><span class="cnt" data-n>0</span><em>কার্ট</em></button></div><nav class="gnav"><div class="wrap"><a class="on" href="#">হোম</a><div class="dd"><a href="#products">আমাদের পণ্য ▾</a><div class="ddm" id="ddm"></div></div><a href="#story">আমাদের সম্পর্কে</a><a href="#videos" id="nv" hidden>ভিডিও</a><a href="#contact">যোগাযোগ</a><span class="slg">প্রকৃতি ও ঐতিহ্যের সাথে…</span></div></nav></header>
 <main id="shop">
