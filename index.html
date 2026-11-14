@@ -1012,8 +1012,25 @@ function drawShop(){
  let L=D.products.filter(p=>W(p).length&&(!cv||p.cat===cv)&&(!q||(p.name+p.desc).toLowerCase().includes(q)));
  const ep=p=>W(p)[0].s;
  L.sort((a,b)=>so==='a'?ep(a)-ep(b):so==='d'?ep(b)-ep(a):so==='f'?(!!b.featured)-(!!a.featured):(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0));
- $('#pg').innerHTML=L.map(p=>{const w=W(p),ok=p.stock!==false;return`<article class="card"><div class="im" data-det="${p.id}" style="cursor:zoom-in">${p.img?`<img loading="lazy" src="${esc(IU(p.img))}" alt="${esc(p.name)}">`:'🌿'}${isNew(p)?'<b class="tag">নতুন</b>':p.featured?'<b class="tag">বিশেষ</b>':''}<span class="bchip"><i><img src="logo-icon.png?v=2" alt="" width="22" height="22" onerror="this.replaceWith('🌿')"></i><b>গ্রামের বাড়ি</b></span></div><h3 data-det="${p.id}" style="cursor:pointer">${esc(p.name)}</h3>${ratingLine(p.id)}<p>${esc(p.desc)}</p><div class="pr" id="pr-${p.id}">${pr(w[0])}</div><select data-w="${p.id}" aria-label="ওজন">${w.map((x,i)=>`<option value="${i}">${esc(x.l)}</option>`).join('')}</select><span class="st ${ok?'in':'out'}">${ok?'স্টকে আছে':'স্টক শেষ'}</span><div class="bt"><div class="qty" aria-label="পরিমাণ"><button type="button" data-qm="${p.id}" aria-label="কমান">−</button><span data-qv="${p.id}">1</span><button type="button" data-qp="${p.id}" aria-label="বাড়ান">+</button></div><button class="go" data-buy="${p.id}" ${ok?'':'disabled'}>এখনই কিনুন</button><button class="pri" data-add="${p.id}" ${ok?'':'disabled'}>কার্টে যোগ করুন</button></div><div class="trust"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 4.5 5.5v6c0 4.7 3.1 8.6 7.5 10 4.4-1.4 7.5-5.3 7.5-10v-6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>নিরাপদ লেনদেন</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h11v10H2zM13 9h4l4 3v4h-8"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>দ্রুত ডেলিভারি</span></div></article>`}).join('')||`<div class="empty">${D.products.length?'কোনো পণ্য মেলেনি।':'পণ্য শীঘ্রই যোগ হবে।'}</div>`;
- const O=D.offers.filter(o=>(!o.start||nd(o.start).trim()<=today())&&(!o.end||nd(o.end).trim()>=today()));
+
+  
+  
+$('#pg').innerHTML=L.map(p=>{
+ const ok=p.stock!==false;
+ return `<article class="card">
+   <div class="im" data-det="${p.id}" style="cursor:pointer">
+     ${p.img?`<img loading="lazy" src="${esc(IU(p.img))}" alt="${esc(p.name)}">`:'🌿'}
+   </div>
+   <h3 data-det="${p.id}" style="cursor:pointer">${esc(p.name)}</h3>
+   <p>${esc(p.desc)}</p>
+   <div class="bt" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+     <button class="pri" data-add="${p.id}" ${ok?'':'disabled'} style="background:#6815b9;color:white">Add to Cart</button>
+     <button class="go" data-det="${p.id}" ${ok?'':'disabled'} style="background:#ffdc35;color:#302000">Buy Now</button>
+   </div>
+ </article>`;
+}).join('')||`<div class="empty">${D.products.length?'কোনো পণ্য মেলেনি।':'পণ্য শীঘ্রই যোগ হবে।'}</div>`;
+
+  const O=D.offers.filter(o=>(!o.start||nd(o.start).trim()<=today())&&(!o.end||nd(o.end).trim()>=today()));
  $('#offers').hidden=!O.length;
  $('#og').innerHTML=O.map(o=>`<div class="pb"><span class="rd" aria-hidden="true">🛵</span><div class="tx"><h3>${esc(o.title)}</h3>${o.text?`<p>${esc(o.text)}</p>`:''}${+o.percent?`<span class="rb">${bn(o.percent)}% ছাড়!</span>`:''}${o.newPrice?` <b>${tk(o.newPrice)}</b> <s>${tk(o.oldPrice)}</s>`:''}${o.end?`<p>অফার শেষ: ${esc(o.end)}</p>`:''}</div><button class="cta" data-go="products">এখনই অর্ডার করুন →</button></div>`).join('');
  const V=D.videos.filter(v=>ytid(v.url));$('#videos').hidden=!V.length;$('#nv').hidden=!V.length;
