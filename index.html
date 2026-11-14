@@ -1483,4 +1483,126 @@ function delPage(){open(`${XB}<h2>ডেটা মুছে ফেলার ন�
 function route(){const a=location.hash==='#admin';document.body.classList.toggle('adm',a);$('#admin').hidden=!a;$('#shop').hidden=a;if(a)drawAdmin();if(location.hash==='#data-deletion'){if(!ddShown){ddShown=true;delPage()}}else ddShown=false}
 $('#yr').textContent=bd(new Date().getFullYear());
 addEventListener('hashchange',route);route();drawCart();drawShop();
-</script></body></html>
+</script>
+
+
+<script>
+(function () {
+  const css = `
+    #pg .card .ra,
+    #pg .card .pr,
+    #pg .card select[data-w],
+    #pg .card .st,
+    #pg .card .qty,
+    #pg .card .trust,
+    #pg .card .tag,
+    #pg .card .bchip {
+      display: none !important;
+    }
+
+    #pg .card {
+      padding: 0 !important;
+      overflow: hidden;
+      border-radius: 18px !important;
+      background: #fff !important;
+      border: 1px solid #e5d9f5 !important;
+    }
+
+    #pg .card .im {
+      aspect-ratio: 1 / 1 !important;
+      cursor: pointer;
+      border-radius: 0 !important;
+    }
+
+    #pg .card h3 {
+      text-align: center;
+      cursor: pointer;
+      margin: 12px 8px 4px !important;
+    }
+
+    #pg .card p {
+      text-align: center;
+      padding: 0 12px;
+      margin: 4px 0 12px !important;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    #pg .card .bt {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 8px !important;
+      margin: 10px 10px 12px !important;
+    }
+
+    #pg .card .bt .pri,
+    #pg .card .bt .go {
+      display: block !important;
+      grid-column: auto !important;
+      width: 100%;
+      min-width: 0;
+      border: 0 !important;
+      border-radius: 12px !important;
+      padding: 12px 4px !important;
+      font-size: 13px !important;
+      font-weight: 800 !important;
+      box-shadow: none !important;
+    }
+
+    #pg .card .bt .pri {
+      background: #6515b8 !important;
+      color: white !important;
+    }
+
+    #pg .card .bt .go {
+      background: #ffda35 !important;
+      color: #302000 !important;
+    }
+  `;
+
+  const style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
+
+  function updateButtons() {
+    document.querySelectorAll('#pg .card').forEach(card => {
+      const add = card.querySelector('[data-add]');
+      const buy = card.querySelector('[data-buy]');
+
+      if (add) add.textContent = 'Add to Cart';
+      if (buy) buy.textContent = 'Buy Now';
+    });
+  }
+
+  const pg = document.getElementById('pg');
+
+  if (pg) {
+    new MutationObserver(updateButtons).observe(pg, {
+      childList: true,
+      subtree: true
+    });
+    updateButtons();
+  }
+
+  // Buy Now চাপলে আগে পণ্যের বিস্তারিত খুলবে
+  document.addEventListener('click', function (event) {
+    const buy = event.target.closest('#pg [data-buy]');
+    if (!buy) return;
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    const card = buy.closest('.card');
+    const detail = card && card.querySelector('[data-det]');
+
+    if (detail) detail.click();
+  }, true);
+})();
+</script>
+
+
+
+
+</body></html>
